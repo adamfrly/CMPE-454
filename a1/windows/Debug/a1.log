@@ -1,0 +1,4 @@
+﻿  landscape.cpp
+C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\a1\src\landscape.cpp(134,10): error C2065: 'a': undeclared identifier
+  world.cpp
+  Generating Code...
