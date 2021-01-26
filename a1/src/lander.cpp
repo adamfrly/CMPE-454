@@ -123,18 +123,21 @@ void Lander::updatePose( float deltaT )
 void Lander::rotateCW( float deltaT )
 
 {
-  orientation -= ROTATION_SPEED * deltaT;
+    if (fuel > 0) {
+        orientation -= ROTATION_SPEED * deltaT;
+        fuel -= ROTATIONAL_FUEL_CONSUMPTION * deltaT;
+    }
 
-  // YOUR CODE HERE
 }
 
 
 void Lander::rotateCCW( float deltaT )
 
 {
-  orientation += ROTATION_SPEED * deltaT;
-
-  // YOUR CODE HERE
+    if (fuel > 0) {
+        orientation += ROTATION_SPEED * deltaT;
+        fuel -= ROTATIONAL_FUEL_CONSUMPTION * deltaT;
+    }
 }
 
 
@@ -145,8 +148,11 @@ void Lander::addThrust( float deltaT )
 
 {
   // YOUR CODE HERE
-    velocity.x -= THRUST_ACCEL * sin(orientation) * deltaT;
-    velocity.y += THRUST_ACCEL * cos(orientation) * deltaT;
+    if (fuel > 0) {
+        velocity.x -= THRUST_ACCEL * sin(orientation) * deltaT;
+        velocity.y += THRUST_ACCEL * cos(orientation) * deltaT;
+        fuel -= THRUST_FUEL_CONSUMPTION * deltaT;
+    }
 }
 
 

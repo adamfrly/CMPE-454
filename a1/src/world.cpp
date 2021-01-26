@@ -103,6 +103,8 @@ void World::draw()
   // Draw the heads-up display (i.e. all text).
 
   stringstream ss;
+  stringstream sf;
+  stringstream sc;
 
   drawStrokeString( "LUNAR LANDER", -0.2, 0.85, 0.06, glGetUniformLocation( myGPUProgram->id(), "MVP") );
 
@@ -114,5 +116,14 @@ void World::draw()
 
   // YOUR CODE HERE (modify the above code, too)
 
+  sf.setf(ios::fixed, ios::floatfield);
+  sf.precision(1);
+  sc.setf(ios::fixed, ios::floatfield);
+  sc.precision(1);
+
+  sf << "FUEL " << lander->fuel;
+  drawStrokeString(sf.str(), -0.95, 0.70, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));       //Display remaining fuel
+  sc << "SCORE " << score;
+  drawStrokeString(sc.str(), -0.95, 0.65, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));       //Display current score
 
 }
