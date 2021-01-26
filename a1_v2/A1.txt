@@ -59,7 +59,7 @@ HERE":
    orientation. [1 mark] (In progress)
 
 5. Modify Lander::addThrust() to change the lander velocity.  Use
-   THRUST_ACCEL and the current lander orientation. [1 mark]
+   THRUST_ACCEL and the current lander orientation. [1 mark] (Needs checking)
 
 6. Modify World::draw() to output text that shows the same information as
    the original lunar lander game (search Google Images for this).  There

@@ -119,6 +119,8 @@ vec3 Landscape::findClosestPoint( vec3 position, vec3 segTail, vec3 segHead )
   // the range [segTail,segHead], return the closest end of that
   // range.
 
+  // YOUR CODE HERE
+
     vec3 segVec = vec3(segHead.x - segTail.x, segHead.y - segTail.y, 0);
     
     vec3 segNormed = 1 / sqrt(segVec.x * segVec.x + segVec.y * segVec.y) * segVec; // It freaks out if you you write segVec / sqrt(blah)
@@ -128,8 +130,6 @@ vec3 Landscape::findClosestPoint( vec3 position, vec3 segTail, vec3 segHead )
     float proj = perp * segNormed; // Dot product to get the projection perp onto segNormed
 
     return ((proj) < (0) ? (segTail) : ((proj) > (1) ? (segHead) : (proj*segVec + segTail)));
-
-  return vec3(0,0,0);
 }
 
 
