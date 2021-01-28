@@ -129,7 +129,7 @@ vec3 Landscape::findClosestPoint( vec3 position, vec3 segTail, vec3 segHead )
 
     float proj = perp * segNormed; // Dot product to get the projection perp onto segNormed
 
-    return ((proj) < (0) ? (segTail) : ((proj) > (1) ? (segHead) : (proj*segVec + segTail)));
+    return ((proj) < (0) ? (segTail) : ((proj) > (1) ? (segHead) : (proj*segVec + segTail))); // CLAMP function from lander.cpp
 }
 
 
