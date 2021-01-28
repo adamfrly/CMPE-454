@@ -52,7 +52,13 @@ void World::updateState( float elapsedTime )
   // REQUIRED IN THE ASSIGNMENT.
 
   // YOUR CODE HERE
-
+  vec3 up(0.0, 1.0, 0.0);
+  if (closestDistance < 10e-2 || closestTerrainPoint * up < 0) { // When the closest distance is this small, the ship can pass through the landscape accidently
+      lander->stop();               // Maybe we need to check if the "up" vector dotted with our closestTerrainPoint vector is negative. (This didn't work)
+      if (lander->velocity.x < 0.5 && lander->velocity.y < 1.0) {
+          
+      }
+  }
 
 }
 
@@ -115,13 +121,42 @@ void World::draw()
   ss << "FUEL " << lander->fuel;
   drawStrokeString(ss.str(), -0.95, 0.70, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));       //Display remaining fuel
   ss.str("");
+  
   ss << "SCORE " << score;
   drawStrokeString(ss.str(), -0.95, 0.65, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));       //Display current score
   ss.str("");
+  
   ss << "ALTITUDE " << 1.5; // getAltitude();
   drawStrokeString(ss.str(), -0.95, 0.60, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));       //Display current altitude
   ss.str("");
   
+
+  // I suspect that from here down is extremely inefficent, idk what VAO/VBO lines you need to repeat
+  setupArrowVAO();
+  float s = 22.5 / (maxX() - minX()); // Trial and error on a good scaling value
+  float directionX = (lander->velocity.x > 0) ? 4.71 : 1.57; // Determine direction of horizontal arrow
+  float directionY = (lander->velocity.y > 0) ? 0 : 3.14; // Determine direction of vertical arrow
+
+  // Print vertical speed
+  ss << "VERTICAL SPEED " << lander->velocity.y;
+  drawStrokeString(ss.str(), 0.20, 0.65, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));       //Display current score
+  ss.str("");
+
+  worldToViewTransform = rotate(directionY, vec3(0, 0, 1)) * scale(s, s, 1); // Idk how to get these arrow translated into the right positions
+  glBindVertexArray(arrowVAO);
+  glUniformMatrix4fv(glGetUniformLocation(myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0]);
+  glLineWidth(2.0);
+  glDrawArrays(GL_LINES, 0, numArrowVerts);
+
+  // Print horizontal speed
+  ss << "HORIZONTAL SPEED " << lander->velocity.x;
+  drawStrokeString(ss.str(), 0.20, 0.70, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));
+
+  worldToViewTransform = rotate(directionX, vec3(0, 0, 1)) * scale(s, s, 1); // Idk how to get these arrow translated into the right positions
+  glBindVertexArray(arrowVAO);
+  glUniformMatrix4fv(glGetUniformLocation(myGPUProgram->id(), "MVP"), 1, GL_TRUE, &worldToViewTransform[0][0]); 
+  glLineWidth(2.0);
+  glDrawArrays(GL_LINES, 0, numArrowVerts);
 
 }
 
