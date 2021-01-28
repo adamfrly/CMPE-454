@@ -52,9 +52,9 @@ void World::updateState( float elapsedTime )
   // REQUIRED IN THE ASSIGNMENT.
 
   // YOUR CODE HERE
+
+
 }
-
-
 
 void World::draw()
 
@@ -82,6 +82,12 @@ void World::draw()
     // and is 2*ZOOM_RADIUS wide (in world coordinates).
 
     // YOUR CODE HERE
+
+      float s = 1 / (2 * ZOOM_RADIUS);    //Get scaling factor
+      worldToViewTransform
+          = translate(0, BOTTOM_SPACE, 0)
+          * scale(s, s, 1)
+          * translate(-lander->centrePosition().x, -lander->centrePosition().y, 0);     //Translate so that lander is centered
   }
 
   // Draw the landscape and lander, passing in the worldToViewTransform
@@ -102,9 +108,20 @@ void World::draw()
 
   ss << "SPEED " << lander->speed() << " m/s";
   drawStrokeString( ss.str(), -0.95, 0.75, 0.04, glGetUniformLocation( myGPUProgram->id(), "MVP") );
+  ss.str("");
 
   // YOUR CODE HERE (modify the above code, too)
 
+  ss << "FUEL " << lander->fuel;
+  drawStrokeString(ss.str(), -0.95, 0.70, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));       //Display remaining fuel
+  ss.str("");
+  ss << "SCORE " << score;
+  drawStrokeString(ss.str(), -0.95, 0.65, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));       //Display current score
+  ss.str("");
+  ss << "ALTITUDE " << 1.5; // getAltitude();
+  drawStrokeString(ss.str(), -0.95, 0.60, 0.04, glGetUniformLocation(myGPUProgram->id(), "MVP"));       //Display current altitude
+  ss.str("");
+  
 
 }
 
