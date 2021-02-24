@@ -29,13 +29,13 @@ void main()
 
   // Provide a colour 
 
-  colour = vec3(1.0,0.0,0.0);         // YOUR CODE HERE
+  colour = vec3(0.66, 0.84, 0.36);         // YOUR CODE HERE
 
   // calculate normal in VCS
 
-  normal = vec3(0.0,1.0,0.0);         // YOUR CODE HERE
+  normal = vec3(MV * vec4( vertNormal, 0.0 ));         // YOUR CODE HERE
+
 
   // Calculate the depth in [0,1]
-
-  depth = 0.5;                  // YOUR CODE HERE
+  depth = -1.0 / gl_Position.w * gl_Position.z;                  // YOUR CODE HERE
 }
