@@ -245,19 +245,18 @@ int main( int argc, char **argv )
   
   // Open window (ask for OpenGL ES 3.0 or better)
 
-//#ifdef MACOS      Pretending to be MAC to run the code
+// #ifdef MACOS      Pretending to be MAC to run the code
   // glfwWindowHint( GLFW_CLIENT_API, GLFW_OPENGL_API );
   glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 );
   glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 3 );
   glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE );
   glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
-/*#else
+/* #else
   glfwWindowHint( GLFW_CLIENT_API, GLFW_OPENGL_ES_API );
   glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);                        //Changed version_minor to 3
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);      //Added this line
-#endif
-*/
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);                        //Changed version_minor to 3
+#endif */
+
   // Set up the window
 
   window = glfwCreateWindow( windowWidth, windowHeight, "toon shading", NULL, NULL);

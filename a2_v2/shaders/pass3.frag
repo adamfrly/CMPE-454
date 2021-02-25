@@ -25,7 +25,6 @@ out mediump vec4 outputColour;          // the output fragment colour as RGBA wi
 void main()
 
 {
-  mediump vec2 dummy = texCoords;  // REMOVE THIS ... It's just here because MacOS complains otherwise
 
   // [0 marks] Look up values for the depth and Laplacian.  Use only
   // the R component of the texture as texture2D( ... ).r
@@ -33,6 +32,11 @@ void main()
   // YOUR CODE HERE
   mediump float depthVal = texture(depthSampler, texCoords).r;			//Not sure if this is right or if it should even be vec1
   mediump float lapVal = texture(laplacianSampler, texCoords).r;
+
+  if (depthVal >= 0.95 && lapVal >= 0.0){
+	outputColour = vec4(1.0, 1.0, 1.0, 1.0);
+	return;
+	}
 
   // [1 mark] Discard the fragment if it is a background pixel not
   // near the silhouette of the object.
@@ -57,9 +61,10 @@ void main()
 
   // YOUR CODE HERE
   mediump float NdotL = dot( normalize(normVal), lightDir );	//Used to compute N dot L
-  mediump vec4 outputColour;
-	
-
+  
+  mediump float blendFactor = (1.0/float(numQuanta) * floor(NdotL * float(numQuanta) + 0.5));
+  outputColour = vec4(texColour, 1.0) * blendFactor;
+ 
   // [2 marks] Look at the fragments in the 3x3 neighbourhood of
   // this fragment.  Your code should use the 'kernelRadius'
   // below and check all fragments in the range
@@ -92,5 +97,5 @@ void main()
   
   // YOUR CODE HERE
 
-  outputColour = vec4( 1.0, 0.0, 1.0, 1.0 );
+  // outputColour += vec4( depthVal, depthVal, depthVal, 1.0 );
 }

@@ -90,7 +90,7 @@ void GPUProgram::validateProgram()
 void GPUProgram::init( char *vsText, char *fsText )
 
 {
-//#ifdef MACOS      Commented out so that shaders versions are changed
+// #ifdef MACOS      Commented out so that shaders versions are changed
   // On MacOS, replace "#version 300 es" with "#version 330   " in each shader
 
   char *p;
@@ -121,7 +121,7 @@ void GPUProgram::init( char *vsText, char *fsText )
   p[12] = '\n'; 
   p[13] = '\n';
   p[14] = '\n';
-//#endif
+// #endif
 
   glErrorReport( "before GPUProgram::init" );
 

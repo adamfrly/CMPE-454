@@ -28,8 +28,6 @@ layout (location = 0) out mediump vec3 fragLaplacian;
 void main()
 
 {
-  mediump vec2 dummy = texCoords;  // REMOVE THIS ... It's just here because MacOS complains otherwise
-
   // YOUR CODE HERE.  You will have to compute the Laplacian by
   // evaluating a 3x3 filter kernel at the current texture
   // coordinates.  The Laplacian weights of the 3x3 kernel are
@@ -41,5 +39,15 @@ void main()
   // Store a signed value for the Laplacian; do not take its absolute
   // value.
   
-  fragLaplacian = vec3( 0.1, 0.2, 0.3 );
+  float laplace = texture(depthSampler, texCoords).r * 8.0 //Center
+			+ texture(depthSampler, texCoords + texCoordInc).r * -1.0 // Top Right
+			+ texture(depthSampler, texCoords - texCoordInc).r * -1.0 // Bottom Left
+			+ texture(depthSampler, texCoords + vec2(-texCoordInc.x, texCoordInc.y)).r * -1.0 // Top Left
+			+ texture(depthSampler, texCoords + vec2(texCoordInc.x, -texCoordInc.y)).r * -1.0 // Bottom Right
+			+ texture(depthSampler, texCoords + vec2(-texCoordInc.x, 0)).r * -1.0 // Middle Left
+			+ texture(depthSampler, texCoords + vec2(texCoordInc.x, 0)).r * -1.0 // Middle Right
+			+ texture(depthSampler, texCoords + vec2(0, texCoordInc.y)).r * -1.0 // Top Middle
+			+ texture(depthSampler, texCoords + vec2(0, -texCoordInc.y)).r * -1.0; // Bottom Middle
+
+  fragLaplacian = vec3( laplace, laplace, laplace);
 }

@@ -37,5 +37,5 @@ void main()
 
 
   // Calculate the depth in [0,1]
-  depth = -1.0 / gl_Position.w * gl_Position.z;                  // YOUR CODE HERE
+  depth = 0.5 * (1.0 / gl_Position.w * gl_Position.z) + 0.5;                  // YOUR CODE HERE
 }
