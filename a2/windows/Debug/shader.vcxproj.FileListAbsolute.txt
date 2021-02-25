@@ -1,2 +1,0 @@
-C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a2\windows\Debug\shader.exe
-C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a2\windows\Debug\shader.pdb
