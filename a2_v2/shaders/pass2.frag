@@ -40,7 +40,12 @@ void main()
   //
   // Store a signed value for the Laplacian; do not take its absolute
   // value.
-
   
+  float lap = 0;
+  lap += texCoords*(8)	//Is this the center?
+  lap += (texCoords[0]+texCoordInc[0])*(-1)	//Right Middle
+  lap += (texCoords[0]-texCoordInc[0])*(-1)	//Left Middle
+  lap += (texCoords[1]+texCoordInc[1])*(-1)	//Top Middle
+  lap += (texCoords[1]-texCoordInc[1])*(-1) //Bottom Middle
   fragLaplacian = vec3( 0.1, 0.2, 0.3 );
 }
