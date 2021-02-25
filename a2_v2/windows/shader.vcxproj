@@ -34,6 +34,16 @@
     <ClInclude Include="..\src\toon.h" />
     <ClInclude Include="..\src\wavefront.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\shaders\dummy.frag" />
+    <None Include="..\shaders\dummy.vert" />
+    <None Include="..\shaders\pass1.frag" />
+    <None Include="..\shaders\pass1.vert" />
+    <None Include="..\shaders\pass2.frag" />
+    <None Include="..\shaders\pass2.vert" />
+    <None Include="..\shaders\pass3.frag" />
+    <None Include="..\shaders\pass3.vert" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{71457ADC-EFCD-4D13-AF48-B42718667B63}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

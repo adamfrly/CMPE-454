@@ -31,23 +31,20 @@ void main()
   // the R component of the texture as texture2D( ... ).r
 
   // YOUR CODE HERE
-  mediump vec3 depthVal = texture(depthSampler).r;			//Not sure if this is right or if it should even be vec1
-  mediump vec3 lapVal = texture(laplacianSampler).r;
+  mediump float depthVal = texture(depthSampler, texCoords).r;			//Not sure if this is right or if it should even be vec1
+  mediump float lapVal = texture(laplacianSampler, texCoords).r;
 
   // [1 mark] Discard the fragment if it is a background pixel not
   // near the silhouette of the object.
 
   // YOUR CODE HERE
-  if(depthVal == 1){
-		//discard as you're in the background
-  }
 
   // [0 marks] Look up value for the colour and normal.  Use the RGB
   // components of the texture as texture2D( ... ).rgb or texture2D( ... ).xyz.
 
   // YOUR CODE HERE
-  mediump vec3 texColour = texture( colorSampler ).rgb;
-  mediump vec3 normVal = texture( normalSampler ).xyz;
+  mediump vec3 texColour = texture(colourSampler, texCoords).rgb;
+  mediump vec3 normVal = texture(normalSampler, texCoords).xyz;
 
   // [2 marks] Compute Cel shading, in which the diffusely shaded
   // colour is quantized into four possible values.  Do not allow the
@@ -61,23 +58,6 @@ void main()
   // YOUR CODE HERE
   mediump float NdotL = dot( normalize(normVal), lightDir );	//Used to compute N dot L
   mediump vec4 outputColour;
-  
-  //Don't know if we need this:
-  if (NdotL < 0.2){
-    NdotL = 0.0;
-  }
-  
-  outputColour = (1/numQuanta)*NdotL;		//Something like this****
-  
-  
-  if (NdotL > 0.95)														//Need to change from if/else statements to make efficient + get marks
-    outputColour = 0.95 * vec4(colour,1.0); // 0.95 - 1.00  ->  0.95
-  else if (NdotL > 0.70)
-    outputColour = 0.70 * vec4(colour,1.0); // 0.70 - 0.95  ->  0.70
-  else if (NdotL > 0.40)
-    outputColour = 0.40 * vec4(colour,1.0); // 0.40 - 0.70  ->  0.40
-  else
-    outputColour = 0.10 * vec4(colour,1.0); // 0.00 - 0.40  ->  0.10
 	
 
   // [2 marks] Look at the fragments in the 3x3 neighbourhood of
