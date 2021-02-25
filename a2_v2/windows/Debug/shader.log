@@ -1,2 +1,10 @@
-﻿  gpuProgram.cpp
+﻿  font.cpp
+  gbuffer.cpp
+  gpuProgram.cpp
+  pixelZoom.cpp
+  renderer.cpp
+  toon.cpp
+  wavefront.cpp
+  Generating Code...
+  LINK : C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a2_v2\windows\Debug\shader.exe not found or not built by the last incremental link; performing full link
   shader.vcxproj -> C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a2_v2\windows\Debug\shader.exe
