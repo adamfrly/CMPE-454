@@ -84,7 +84,7 @@ void main()
   // blending is being done correctly.  Do not use '3.0' or '-0.1' in
   // your code; use 'kernelRadius' and 'threshold'.
 
-  const mediump float kernelRadius = 3.0;
+  const mediump float kernelRadius = 4.0;
   const mediump float threshold = -0.1;
 
   // YOUR CODE HERE
