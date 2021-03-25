@@ -54,42 +54,52 @@ vec3 Spline::eval( float t, evalType type )
   
   
   // for t outside [0,data.size()), move t into range
-    t = fmod(t, data.size());
 
   // Find the 4 control points for this t, and the u value in [0,1] for this interval.
-    int u = int(t);
+    float u = t - floor(t);
+    int siz = int(floor(t)) % data.size();
+    vec3 q_back1, q, q_up1, q_up2;
+    if (siz == 0) {
+        q_back1 = data[data.size() - 1];
+    }
+    else {
+        q_back1 = data[siz - 1];
+    }
 
-    vec4 q_back1 = vec4(data[abs((u - 1) % data.size())], 0);
-    vec4 q = vec4(data[u], 0);
-    vec4 q_up1 = vec4(data[(u + 1) % data.size()], 0);
-    vec4 q_up2 = vec4(data[(u + 2) % data.size()], 0);
+    q = data[siz];
+    q_up1 = data[(siz + 1) % data.size()];
+    q_up2 = data[(siz + 2) % data.size()];
 
 
-  // Compute Mv
-    mat4 v;
-    v.rows[0] = q_back1;
-    v.rows[1] = q;
-    v.rows[2] = q_up1;
-    v.rows[3] = q_up2;
+    vec3 v[] = { q_back1, q, q_up1, q_up2 };    // Compute v
+    
+    // Compute Mv
+    vec3 Mv[4];
 
-    mat4 shit;
-    shit.rows[0] = vec4(M[currSpline][0]);
-    shit.rows[1] = vec4(M[currSpline][1]);
-    shit.rows[2] = vec4(M[currSpline][2]);
-    shit.rows[3] = vec4(M[currSpline][3]);
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 3; j++) {
+            Mv[i][j] = 0;
+            for (int n = 0; n < 4; n++) {
+                Mv[i][j] += M[currSpline][i][n] * v[n][j];
+            }
+        }
+    }
 
-    mat4 Mv = shit * v;
     vec3 T;
 
   // If type == VALUE, return the value = T (Mv)
     if (type == VALUE) {
-        T = (Mv * vec4(u * u * u, u * u, u, 0)).toVec3();
+        for (int i = 0; i < 3; i++) {
+            T[i] = (Mv[0][i] * u * u * u + Mv[1][i] * u * u + Mv[2][i] * u + Mv[3][i]);
+        }
     }
 
 
   // If type == TANGENT, return the value T' (Mv)
     if (type == TANGENT) {
-        T = (Mv * vec4(3 * u * u, 2 * u, 1, 0)).toVec3();
+        for (int j = 0; j < 3; j++) {
+            T[j] = (Mv[0][j] * 3 * u * u  + Mv[1][j] * 2 * u  + Mv[2][j]);
+        }
     }
 
   return T;
