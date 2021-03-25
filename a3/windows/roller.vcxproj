@@ -14,6 +14,7 @@
     <ClCompile Include="..\src\arcball.cpp" />
     <ClCompile Include="..\src\axes.cpp" />
     <ClCompile Include="..\src\ctrlPoints.cpp" />
+    <ClCompile Include="..\src\cube.cpp" />
     <ClCompile Include="..\src\cylinder.cpp" />
     <ClCompile Include="..\src\drawSegs.cpp" />
     <ClCompile Include="..\src\font.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\src\arcball.h" />
     <ClInclude Include="..\src\axes.h" />
     <ClInclude Include="..\src\ctrlPoints.h" />
+    <ClInclude Include="..\src\cube.h" />
     <ClInclude Include="..\src\cylinder.h" />
     <ClInclude Include="..\src\drawSegs.h" />
     <ClInclude Include="..\src\font.h" />

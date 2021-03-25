@@ -15,9 +15,22 @@
 void Train::draw( mat4 &WCStoVCS, mat4 &WCStoCCS, vec3 lightDir, bool flag )
 
 {
-#if 0
+#if 1
 
   // YOUR CODE HERE
+	float t = spline->paramAtArcLength(pos);
+
+	// Draw cube
+
+	vec3 o, x, y, z;
+	spline->findLocalSystem(t, o, x, y, z);
+
+	mat4 M = translate(o) * scale(SPHERE_RADIUS, SPHERE_RADIUS, SPHERE_RADIUS);
+	mat4 MV = WCStoVCS * M;
+	mat4 MVP = WCStoCCS * M;
+
+	cube->draw(MV, MVP, lightDir, vec3(SPHERE_COLOUR));
+
 
 #else
   

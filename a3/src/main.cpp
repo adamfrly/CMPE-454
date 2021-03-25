@@ -18,6 +18,7 @@ Scene *scene;
 
 Sphere   *sphere;
 Cylinder *cylinder;
+Cube     *cube;
 Axes     *axes;
 Segs     *segs;
 
@@ -113,6 +114,7 @@ int main( int argc, char **argv )
 
   sphere   = new Sphere(4);
   cylinder = new Cylinder(200);
+  cube     = new Cube();
   axes     = new Axes();
   segs     = new Segs();
   

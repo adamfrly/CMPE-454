@@ -54,6 +54,7 @@ vec3 Spline::eval( float t, evalType type )
   
   
   // for t outside [0,data.size()), move t into range
+    // t = fmod(t, data.size());
 
   // Find the 4 control points for this t, and the u value in [0,1] for this interval.
     float u = t - floor(t);
@@ -114,9 +115,17 @@ vec3 Spline::eval( float t, evalType type )
 void Spline::findLocalSystem( float t, vec3 &o, vec3 &x, vec3 &y, vec3 &z )
 
 {
-#if 0
+#if 1
 
   // YOUR CODE HERE
+    vec3 T = eval(t, TANGENT);
+    o = eval(t, VALUE);
+
+    z = T.normalize();
+    y = -1.0 * z.perp2().normalize();
+    x = (z ^ y).normalize();
+
+
 
 #else
   
