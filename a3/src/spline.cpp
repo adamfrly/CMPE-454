@@ -54,20 +54,45 @@ vec3 Spline::eval( float t, evalType type )
   
   
   // for t outside [0,data.size()), move t into range
-
+    t = fmod(t, data.size());
 
   // Find the 4 control points for this t, and the u value in [0,1] for this interval.
+    int u = int(t);
+
+    vec4 q_back1 = vec4(data[abs((u - 1) % data.size())], 0);
+    vec4 q = vec4(data[u], 0);
+    vec4 q_up1 = vec4(data[(u + 1) % data.size()], 0);
+    vec4 q_up2 = vec4(data[(u + 2) % data.size()], 0);
 
 
   // Compute Mv
+    mat4 v;
+    v.rows[0] = q_back1;
+    v.rows[1] = q;
+    v.rows[2] = q_up1;
+    v.rows[3] = q_up2;
 
+    mat4 shit;
+    shit.rows[0] = vec4(M[currSpline][0]);
+    shit.rows[1] = vec4(M[currSpline][1]);
+    shit.rows[2] = vec4(M[currSpline][2]);
+    shit.rows[3] = vec4(M[currSpline][3]);
+
+    mat4 Mv = shit * v;
+    vec3 T;
 
   // If type == VALUE, return the value = T (Mv)
+    if (type == VALUE) {
+        T = (Mv * vec4(u * u * u, u * u, u, 0)).toVec3();
+    }
 
 
   // If type == TANGENT, return the value T' (Mv)
+    if (type == TANGENT) {
+        T = (Mv * vec4(3 * u * u, 2 * u, 1, 0)).toVec3();
+    }
 
-  return vec3(0,0,0);
+  return T;
 }
 
 
