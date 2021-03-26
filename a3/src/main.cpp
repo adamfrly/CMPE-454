@@ -15,7 +15,6 @@ int windowHeight = 600;
 // The whole scene
 
 Scene *scene;
-
 Sphere   *sphere;
 Cylinder *cylinder;
 Cube     *cube;
@@ -117,6 +116,7 @@ int main( int argc, char **argv )
   cube     = new Cube();
   axes     = new Axes();
   segs     = new Segs();
+ 
   
   // Main loop
 

@@ -23,109 +23,93 @@ public:
 
     Cube() {
 
-        // all vertices of a 1x1x1 cube
-        verts.add(vec3(0.0, 0.0, 0.0));
-        verts.add(vec3(1.0, 0.0, 0.0));
-        verts.add(vec3(0.0, 1.0, 0.0));
-        verts.add(vec3(0.0, 0.0, 1.0));
-        verts.add(vec3(0.0, 1.0, 1.0));
-        verts.add(vec3(1.0, 0.0, 1.0));
-        verts.add(vec3(1.0, 1.0, 0.0));
-        verts.add(vec3(1.0, 1.0, 1.0));
 
-        // all normals of a 1x1x1 cube
-        normals.add(vec3(1.0, 0.0, 0.0));
-        normals.add(vec3(1.0, 0.0, 0.0));
-        normals.add(vec3(0.0, 1.0, 0.0));
-        normals.add(vec3(0.0, 1.0, 0.0));
-        normals.add(vec3(0.0, 0.0, 1.0));
-        normals.add(vec3(0.0, 0.0, 1.0));
-        normals.add(vec3(-1.0, 0.0, 0.0));
-        normals.add(vec3(-1.0, 0.0, 0.0));
-        normals.add(vec3(0.0, -1.0, 0.0));
-        normals.add(vec3(0.0, -1.0, 0.0));
-        normals.add(vec3(0.0, 0.0, -1.0));
-        normals.add(vec3(0.0, 0.0, -1.0));
-
-
-        // all faces of a 1x1x1 cube
-        faces.add(CubeFace(1, 6, 7));
-        faces.add(CubeFace(1, 5, 7));
-        faces.add(CubeFace(2, 4, 7));
-        faces.add(CubeFace(2, 5, 7));
-        faces.add(CubeFace(4, 6, 7));
-        faces.add(CubeFace(4, 3, 6));
-        faces.add(CubeFace(2, 4, 0));
-        faces.add(CubeFace(0, 4, 3));
-        faces.add(CubeFace(0, 3, 1));
-        faces.add(CubeFace(3, 1, 6));
+        //Triangle 1:
+        verts.add(vec3(0.5, 1, 1.75));         // 0 (Makes train longer)
+        verts.add(vec3(0.5, 1, -0.5));        // 1
+        verts.add(vec3(-0.5, 1, 1.75));        // 2 (Makes train longer)
         faces.add(CubeFace(0, 1, 2));
-        faces.add(CubeFace(1, 2, 5));
+        normals.add(vec3(0.0, 0.5, 0.0));
+        normals.add(vec3(0.0, 0.5, 0.0));
+        normals.add(vec3(0.0, 0.5, 0.0));
 
+        //Triangle 2:
+        verts.add(vec3(-0.5, 1, -0.5));       // 3
+        faces.add(CubeFace(1, 2, 3));
+        normals.add(vec3(0.0, 0.5, 0.0));
+        normals.add(vec3(0.0, 0.5, 0.0));
+        normals.add(vec3(0.0, 0.5, 0.0));
 
-        //// bottom vertices
+        //Triangle 3:
+        verts.add(vec3(0.5, 0, -0.5));       // 4
+        faces.add(CubeFace(0, 1, 4));
+        normals.add(vec3(0.5, 0.0, 0.0));
+        normals.add(vec3(0.5, 0.0, 0.0));
+        normals.add(vec3(0.5, 0.0, 0.0));
 
-        //verts.add(vec3(0, 0, -0.5));
-        //normals.add(vec3(0, 0, -1));
-        //for (int i = 0; i < numSlices; i++) {
-        //    float theta = i / (float)numSlices * 2 * M_PI;
-        //    verts.add(vec3(cos(theta), sin(theta), -0.5));
-        //    normals.add(vec3(0, 0, -1));
-        //}
+        //Triangle 4:
+        verts.add(vec3(0.5, 0, 1.75));        // 5
+        faces.add(CubeFace(0, 4, 5));
+        normals.add(vec3(0.5, 0.0, 0.0));
+        normals.add(vec3(0.5, 0.0, 0.0));
+        normals.add(vec3(0.5, 0.0, 0.0));
 
-        //// bottom faces
+        //Triangle 5:
+        verts.add(vec3(-0.5, 0, -0.5));      // 6
+        faces.add(CubeFace(4, 5, 6));
+        normals.add(vec3(0.0, -0.5, 0.0));
+        normals.add(vec3(0.0, -0.5, 0.0));
+        normals.add(vec3(0.0, -0.5, 0.0));
 
-        //for (int i = 0; i < numSlices; i++)
-        //    faces.add(CubeFace((i + 1) % numSlices, i, 0));
+        //Triangle 6:
+        verts.add(vec3(-0.5, 0, 1.75));       // 7   (Makes train longer)
+        faces.add(CubeFace(5, 6, 7));
+        normals.add(vec3(0.0, -0.5, 0.0));
+        normals.add(vec3(0.0, -0.5, 0.0));
+        normals.add(vec3(0.0, -0.5, 0.0));
 
-        //// top vertices
+        //Triangle 7:
+        faces.add(CubeFace(3, 6, 7));
+        normals.add(vec3(-0.5, 0.0, 0.0));
+        normals.add(vec3(-0.5, 0.0, 0.0));
+        normals.add(vec3(-0.5, 0.0, 0.0));
 
-        //verts.add(vec3(0, 0, +0.5));
-        //normals.add(vec3(0, 0, +1));
-        //for (int i = 0; i < numSlices; i++) {
-        //    float theta = i / (float)numSlices * 2 * M_PI;
-        //    verts.add(vec3(cos(theta), sin(theta), +0.5));
-        //    normals.add(vec3(0, 0, +1));
-        //}
+        //Triangle 8:
+        faces.add(CubeFace(3, 7, 2));
+        normals.add(vec3(-0.5, 0.0, 0.0));
+        normals.add(vec3(-0.5, 0.0, 0.0));
+        normals.add(vec3(-0.5, 0.0, 0.0));
 
-        //// top faces
+        //Triangle 9:
+        faces.add(CubeFace(2, 7, 5));
+        normals.add(vec3(0.0, 0.0, 0.5));
+        normals.add(vec3(0.0, 0.0, 0.5));
+        normals.add(vec3(0.0, 0.0, 0.5));
 
-        //for (int i = 0; i < numSlices; i++)
-        //    faces.add(CubeFace(i + (numSlices + 1), (i + 1) % (numSlices + 1) + (numSlices + 1), 0 + (numSlices + 1)));
+        //Triangle 10:
+        faces.add(CubeFace(5, 2, 0));
+        normals.add(vec3(0.0, 0.0, 0.5));
+        normals.add(vec3(0.0, 0.0, 0.5));
+        normals.add(vec3(0.0, 0.0, 0.5));
 
-        //// side vertices (same as others, but with *different* normals)
+        //Triangle 11:
+        faces.add(CubeFace(6, 3, 4));
+        normals.add(vec3(0.0, 0.0, -0.5));
+        normals.add(vec3(0.0, 0.0, -0.5));
+        normals.add(vec3(0.0, 0.0, -0.5));
 
-        //int baseIndex = 2 * (numSlices + 1);
+        //Triangle 12:
+        faces.add(CubeFace(4, 1, 3));
+        normals.add(vec3(0.0, 0.0, -0.5));
+        normals.add(vec3(0.0, 0.0, -0.5));
+        normals.add(vec3(0.0, 0.0, -0.5));
 
-        //for (int i = 0; i < numSlices; i++) {
-        //    float theta = i / (float)numSlices * 2 * M_PI;
-        //    verts.add(vec3(cos(theta), sin(theta), -0.5));
-        //    normals.add(vec3(cos(theta), sin(theta), 0));
-        //}
-
-        //for (int i = 0; i < numSlices; i++) {
-        //    float theta = i / (float)numSlices * 2 * M_PI;
-        //    verts.add(vec3(cos(theta), sin(theta), +0.5));
-        //    normals.add(vec3(cos(theta), sin(theta), 0));
-        //}
-
-        //// side faces
-
-        //for (int i = 0; i < numSlices; i++) {
-
-        //    faces.add(CubeFace(baseIndex + i,
-        //        baseIndex + (i + 1) % numSlices,
-        //        baseIndex + (i + 1) % numSlices + numSlices));
-
-        //    faces.add(CubeFace(baseIndex + (i + 1) % numSlices + numSlices,
-        //        baseIndex + i + numSlices,
-        //        baseIndex + i));
-        //}
 
         gpu.init(vertShader, fragShader, "in cylinder.cpp");
 
         setupVAO();
     };
+
 
     ~Cube() {}
 

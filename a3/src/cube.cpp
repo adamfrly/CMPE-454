@@ -1,4 +1,4 @@
-// cylinder.cpp
+// cube.cpp
 
 
 #include "cube.h"

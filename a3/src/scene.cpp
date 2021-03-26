@@ -578,10 +578,39 @@ bool Scene::write()
 
 #define DIST_BETWEEN_TIES 15.0
 #define NUM_SEGMENTS_BETWEEN_TIES 4
-
+#define TRACK_COLOUR 0/255.0, 0/255.0, 0/255.0
 
 void Scene::drawAllTrack( mat4 &MV, mat4 &MVP, vec3 lightDir )
 
 {
-  // YOUR CODE HERE
+  //// YOUR CODE HERE
+  //  vec3 colour(TRACK_COLOUR);
+
+  //  gpu->activate();
+
+  //  gpu->setMat4("MV", MV);
+  //  gpu->setMat4("MVP", MVP);
+  //  gpu->setVec3("colour", colour);
+  //  gpu->setVec3("lightDir", lightDir);
+
+  //  // Draw using element array
+  //  seq<vec3>         trackVerts;
+  //  seq<vec3>         trackNormals;
+  //  seq<CubeFace>     trackFaces;
+  //  GLuint            VAO;
+
+
+  //  trackVerts.add(vec3(0.5, 0.5, 0.5));         // 0
+  //  trackVerts.add(vec3(0.5, 0.5, -0.5));        // 1
+  //  trackVerts.add(vec3(-0.5, 0.5, 0.5));        // 2
+  //  trackFaces.add(CubeFace(0, 1, 2));
+  //  trackNormals.add(vec3(0.0, 0.5, 0.0));
+  //  trackNormals.add(vec3(0.0, 0.5, 0.0));
+  //  trackNormals.add(vec3(0.0, 0.5, 0.0));
+
+  //  glBindVertexArray(VAO);
+  //  glDrawElements(GL_LINES, trackFaces.size() * 3, GL_UNSIGNED_INT, 0);
+  //  glBindVertexArray(0);
+
+  //  gpu->deactivate();
 }

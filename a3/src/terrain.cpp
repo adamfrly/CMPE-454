@@ -311,6 +311,7 @@ void Terrain::draw( mat4 &MV, mat4 &MVP, vec3 lightDir, bool drawUndersideOnly )
 
   delete[] pts;
   delete[] colours;
+
 }
 
 

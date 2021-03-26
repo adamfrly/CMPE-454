@@ -1,8 +1,9 @@
 ﻿  ctrlPoints.cpp
+  cube.cpp
   main.cpp
   scene.cpp
   spline.cpp
   terrain.cpp
   train.cpp
   Generating Code...
-  roller.vcxproj -> C:\Users\adamf\Documents\School Work\Queen's\4th Year\Second Semester\CMPE 454\CMPE-454\a3\windows\Debug\roller.exe
+  roller.vcxproj -> C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a3\windows\Debug\roller.exe

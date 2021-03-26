@@ -57,6 +57,8 @@ class Scene {
   bool       movingSelectedBase;
 
  public:
+        
+     //Added for drawing tracks
 
   Scene( char *sceneFilename, GLFWwindow *w );
 
