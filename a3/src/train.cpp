@@ -61,23 +61,24 @@ void Train::draw( mat4 &WCStoVCS, mat4 &WCStoCCS, vec3 lightDir, bool flag )
 void Train::advance( float elapsedSeconds )
 
 {
-#if 0
+#if 1
 
-  // YOUR CODE HERE						TODO: Get tangent and normalize
-  float s = getSpeed();
-  float t = spline->paramAtArcLength(pos);
-  //vec3 ev = 
-  float arcLen = currentSpline->totalArcLength();
+  // YOUR CODE HERE
 
-  if (1) {		// Check currentSpline to see if downward slope
-	  accelerate();
-  }
-  else if (2) {		// Check currentSpline to see if upward slope
-	  brake();
-  }
-  else {			// currentSpline is flat, no acceleration
-	  pos += 1;
-  }
+	float t = spline->paramAtArcLength(pos);
+
+	vec3 o, x, y, z;
+	spline->findLocalSystem(t, o, x, y, z);
+
+	vec3 z_norm = z.normalize();
+	
+	speed -= SPEED_INC * (z_norm * vec3(0, 0, 1));
+
+	pos += speed * elapsedSeconds;
+
+	while (pos > spline->totalArcLength()) {
+		pos -= spline->totalArcLength();
+	}
 
 #else
 
