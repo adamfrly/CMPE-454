@@ -578,39 +578,52 @@ bool Scene::write()
 
 #define DIST_BETWEEN_TIES 15.0
 #define NUM_SEGMENTS_BETWEEN_TIES 4
-#define TRACK_COLOUR 0/255.0, 0/255.0, 0/255.0
+#define TRACK_COLOUR vec3(0,0,0)
 
 void Scene::drawAllTrack( mat4 &MV, mat4 &MVP, vec3 lightDir )
 
 {
   //// YOUR CODE HERE
-  //  vec3 colour(TRACK_COLOUR);
+    vec3 colour(TRACK_COLOUR);
 
-  //  gpu->activate();
+    vec3* points = new vec3[spline->data.size() * NUM_SEGMENTS_BETWEEN_TIES + 1];
+    vec3* colours = new vec3[spline->data.size() * NUM_SEGMENTS_BETWEEN_TIES + 1];
+    vec3* points2 = new vec3[spline->data.size() * NUM_SEGMENTS_BETWEEN_TIES + 1];
+    vec3* ties = new vec3[spline->data.size() * NUM_SEGMENTS_BETWEEN_TIES + 1];
+    vec3 offset;
+    offset = { 5, 0, 0 };
 
-  //  gpu->setMat4("MV", MV);
-  //  gpu->setMat4("MVP", MVP);
-  //  gpu->setVec3("colour", colour);
-  //  gpu->setVec3("lightDir", lightDir);
-
-  //  // Draw using element array
-  //  seq<vec3>         trackVerts;
-  //  seq<vec3>         trackNormals;
-  //  seq<CubeFace>     trackFaces;
-  //  GLuint            VAO;
+    float totalTrack = spline->totalArcLength();
+    int numTies = 0;
+    numTies = totalTrack / DIST_BETWEEN_TIES;
+    float pArc[100];
+    int i = 0;
+    int j = 0;
 
 
-  //  trackVerts.add(vec3(0.5, 0.5, 0.5));         // 0
-  //  trackVerts.add(vec3(0.5, 0.5, -0.5));        // 1
-  //  trackVerts.add(vec3(-0.5, 0.5, 0.5));        // 2
-  //  trackFaces.add(CubeFace(0, 1, 2));
-  //  trackNormals.add(vec3(0.0, 0.5, 0.0));
-  //  trackNormals.add(vec3(0.0, 0.5, 0.0));
-  //  trackNormals.add(vec3(0.0, 0.5, 0.0));
+    for (int j = 0; j < numTies; j++) {
+        pArc[j] = spline->paramAtArcLength(j* DIST_BETWEEN_TIES);
+    }
 
-  //  glBindVertexArray(VAO);
-  //  glDrawElements(GL_LINES, trackFaces.size() * 3, GL_UNSIGNED_INT, 0);
-  //  glBindVertexArray(0);
+    for (float t = 0; t < spline->data.size(); t += 1 / (float)NUM_SEGMENTS_BETWEEN_TIES) {
+        points[i] = spline->value(t) - offset;      // Left Track
+        points2[i] = spline->value(t) + offset;     // Right Track
+        colours[i] = TRACK_COLOUR;
+        ties[i] = spline->value(pArc[i]);                    // Ties between tracks
+        i++;
+    }
 
-  //  gpu->deactivate();
+
+    glLineWidth(6.0);   //Set width of track
+    segs->drawSegs(GL_LINE_LOOP, points, colours, i, MV, MVP, lightDir);
+    segs->drawSegs(GL_LINE_LOOP, points2, colours, i, MV, MVP, lightDir);
+    segs->drawSegs(GL_LINES, ties, colours, j, MV, MVP, lightDir);  //Draw Ties
+
+    glLineWidth(1.0);
+    delete[] points;
+    delete[] points2;
+    delete[] ties;
+    delete[] colours;
+ 
+    
 }

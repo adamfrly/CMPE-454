@@ -9,7 +9,7 @@
 
 
 // Used for scaling and coloring the cube
-#define CUBE_RADIUS 8.0
+#define CUBE_RADIUS 12.0
 #define CUBE_COLOUR 0/255.0, 196/255.0, 255/255.0
 
 
@@ -32,7 +32,7 @@ void Train::draw( mat4 &WCStoVCS, mat4 &WCStoCCS, vec3 lightDir, bool flag )
 	vec3 o, x, y, z;
 	spline->findLocalSystem(t, o, x, y, z);
 
-	mat4 M = spline->findLocalTransform(t) * scale(SPHERE_RADIUS, SPHERE_RADIUS, SPHERE_RADIUS);
+	mat4 M = spline->findLocalTransform(t) * scale(CUBE_RADIUS, CUBE_RADIUS, CUBE_RADIUS);
 	mat4 MV = WCStoVCS * M;
 	mat4 MVP = WCStoCCS * M;
 
