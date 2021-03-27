@@ -13,6 +13,14 @@
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #define LIGHT_DIR 1,1,3
 
+
+
+void Scene::setTreeLocs(int trees[]) {
+    for (int i = 0; i < 50; i++) {
+        treeLocs[i] = trees[i];
+    }
+}
+
 Scene::Scene( char *sceneFilename, GLFWwindow *w )
 
 {
@@ -126,6 +134,10 @@ void Scene::draw( bool useItemTags )
 
   terrain->draw( MV, MVP, lightDir, drawUndersideOnly );
 
+  terrain->drawTrees(MV, MVP, lightDir, treeLocs);
+  
+
+
   gpu->deactivate();
 
   // Draw train
@@ -147,6 +159,7 @@ void Scene::draw( bool useItemTags )
   render_text( message.str(), 10, 10, window );
 
   // Done
+ 
   
   glfwSwapBuffers( window );
 }
@@ -593,6 +606,10 @@ void Scene::drawAllTrack( mat4 &MV, mat4 &MVP, vec3 lightDir )
 
     vec3* ties = new vec3[spline->data.size() * DIVS_PER_SEG / NUM_SEGMENTS_BETWEEN_TIES + 1];
     vec3* tiesColour = new vec3[spline->data.size() * DIVS_PER_SEG / NUM_SEGMENTS_BETWEEN_TIES + 1];
+
+    mat4 tmpMV = MV;
+    mat4 tmpMVP = MVP;
+    vec3 tmpLightDir = lightDir;
 
     float t;
     int i = 0;

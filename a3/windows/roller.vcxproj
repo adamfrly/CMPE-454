@@ -29,6 +29,7 @@
     <ClCompile Include="..\src\terrain.cpp" />
     <ClCompile Include="..\src\texture.cpp" />
     <ClCompile Include="..\src\train.cpp" />
+    <ClCompile Include="..\src\tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\arcball.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="..\src\terrain.h" />
     <ClInclude Include="..\src\texture.h" />
     <ClInclude Include="..\src\train.h" />
+    <ClInclude Include="..\src\tree.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{71457ADC-EFCD-4D13-AF48-B42718667B63}</ProjectGuid>

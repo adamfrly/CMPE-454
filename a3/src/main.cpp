@@ -131,7 +131,12 @@ int main( int argc, char **argv )
     float elapsedSeconds = (thisTime.time + thisTime.millitm / 1000.0) - (prevTime.time + prevTime.millitm / 1000.0);
     prevTime = thisTime;
 
+    int treeLocs[50];
+    for(int i = 0; i < 50; i++) {
+        treeLocs[i] = (rand() % 150);
+    }
     scene->update( elapsedSeconds );
+    scene->setTreeLocs(treeLocs);
     scene->draw( false ); // false = draw normally
 
     glfwPollEvents();

@@ -25,7 +25,6 @@ class Terrain {
   static const char *fragShader;
 
  public:
-
   Texture *heightfield;
   Texture *texture;
 
@@ -35,6 +34,7 @@ class Terrain {
     setupVAO();
   }
   
+  void drawTrees(mat4& MV, mat4& MVP, vec3 lightDir, int trees[]);
   void readTextures( string basePath, string heightfieldFilename, string textureFilename );
   void setupVAO();
   void draw( mat4 &MV, mat4 &MVP, vec3 lightDir, bool drawUndersideOnly );

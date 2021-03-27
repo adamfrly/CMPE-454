@@ -15,12 +15,14 @@
 
 
 #define TRACK_PIECES_PER_SEG  20
-
 #define POST_COLOUR vec3(0.8,0.9,0.5)
 
 
 class Scene {
 
+
+  //For tree drawing:
+  int treeLocs[50];
   Terrain    *terrain;
   Spline     *spline;
   CtrlPoints *ctrlPoints;
@@ -56,8 +58,10 @@ class Scene {
   int        selectedCtrlPoint;
   bool       movingSelectedBase;
 
+
  public:
-        
+   
+     void setTreeLocs(int trees[50]);
      //Added for drawing tracks
 
   Scene( char *sceneFilename, GLFWwindow *w );

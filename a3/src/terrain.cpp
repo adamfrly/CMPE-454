@@ -3,12 +3,14 @@
 
 #include "terrain.h"
 #include "main.h"
-
+#include "tree.h"
+#include "ctrlPoints.h"
+#include "seq.h"
 
 #define CURTAIN_COLOUR 0.6,0.6,0.4
 #define BOTTOM_COLOUR  0.3,0.3,0.2
 #define POST_COLOUR    0.6*.7,0.6*.7,0.4*.7
-
+#define TREE_COLOUR vec3(0.8,0.9,0.5)
 #define VERTEX(x,y,z)  glVertex3f(x,y,z)
 
 void Terrain::readTextures( string basePath, string heightfieldFilename, string textureFilename )
@@ -311,6 +313,24 @@ void Terrain::draw( mat4 &MV, mat4 &MVP, vec3 lightDir, bool drawUndersideOnly )
 
   delete[] pts;
   delete[] colours;
+
+
+
+}
+
+void Terrain::drawTrees(mat4& MV, mat4& MVP, vec3 lightDir, int trees[]) {
+    //Novel Feature: Trees ########################################
+
+    Tree* tree;
+
+    tree = new Tree();
+
+    mat4 MVtmp, MVPtmp;
+
+    MVtmp = MV;
+    MVPtmp = MVP;
+    float diag = sqrt(texture->width * texture->width + texture->height * texture->height);
+    tree->draw(MVtmp, MVPtmp, lightDir, TREE_COLOUR, trees);
 
 }
 
