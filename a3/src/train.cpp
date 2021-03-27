@@ -9,8 +9,11 @@
 
 
 // Used for scaling and coloring the cube
-#define CUBE_RADIUS 12.0
+#define CUBE_HEIGHT 5.0
+#define CUBE_WIDTH 5.0
+#define CUBE_LENGTH 10.0
 #define CUBE_COLOUR 0/255.0, 196/255.0, 255/255.0
+#define NUM_TRAINS 5
 
 
 // Draw the train.
@@ -23,20 +26,23 @@ void Train::draw( mat4 &WCStoVCS, mat4 &WCStoCCS, vec3 lightDir, bool flag )
 {
 #if 1
 
+	mat4 M, MV, MVP;
+	vec3 o, x, y, z;
+	float t[NUM_TRAINS];
+
   // YOUR CODE HERE
 
-	float t = spline->paramAtArcLength(pos);
+	
+	for (int i = 0; i < NUM_TRAINS; i++) {
+		t[i] = spline->paramAtArcLength(pos - i * 12.5f);
+		spline->findLocalSystem(t[i], o, x, y, z);
 
-	// Draw cube
+		M = spline->findLocalTransform(t[i]) * scale(CUBE_WIDTH, CUBE_HEIGHT, CUBE_LENGTH);
+		MV = WCStoVCS * M;
+		MVP = WCStoCCS * M;
 
-	vec3 o, x, y, z;
-	spline->findLocalSystem(t, o, x, y, z);
-
-	mat4 M = spline->findLocalTransform(t) * scale(CUBE_RADIUS, CUBE_RADIUS, CUBE_RADIUS);
-	mat4 MV = WCStoVCS * M;
-	mat4 MVP = WCStoCCS * M;
-
-	cube->draw(MV, MVP, lightDir, vec3(CUBE_COLOUR));
+		cube->draw(MV, MVP, lightDir, vec3(CUBE_COLOUR));
+	}
 
 
 #else
@@ -78,6 +84,10 @@ void Train::advance( float elapsedSeconds )
 
 	while (pos > spline->totalArcLength()) {
 		pos -= spline->totalArcLength();
+	}
+
+	while (pos < 0) {
+		pos += spline->totalArcLength();
 	}
 
 #else

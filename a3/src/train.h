@@ -7,7 +7,7 @@
 #include "spline.h"
 
 
-#define SPEED_INC 0.5
+#define SPEED_INC 2.0
 
 
 class Train {

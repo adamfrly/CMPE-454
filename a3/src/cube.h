@@ -25,9 +25,9 @@ public:
 
 
         //Triangle 1:
-        verts.add(vec3(0.5, 1, 1.75));         // 0 (Makes train longer)
+        verts.add(vec3(0.5, 1, 0.5));         // 0 
         verts.add(vec3(0.5, 1, -0.5));        // 1
-        verts.add(vec3(-0.5, 1, 1.75));        // 2 (Makes train longer)
+        verts.add(vec3(-0.5, 1, 0.5));        // 2 
         faces.add(CubeFace(0, 1, 2));
         normals.add(vec3(0.0, 0.5, 0.0));
         normals.add(vec3(0.0, 0.5, 0.0));
@@ -48,7 +48,7 @@ public:
         normals.add(vec3(0.5, 0.0, 0.0));
 
         //Triangle 4:
-        verts.add(vec3(0.5, 0, 1.75));        // 5
+        verts.add(vec3(0.5, 0, 0.5));        // 5
         faces.add(CubeFace(0, 4, 5));
         normals.add(vec3(0.5, 0.0, 0.0));
         normals.add(vec3(0.5, 0.0, 0.0));
@@ -62,7 +62,7 @@ public:
         normals.add(vec3(0.0, -0.5, 0.0));
 
         //Triangle 6:
-        verts.add(vec3(-0.5, 0, 1.75));       // 7   (Makes train longer)
+        verts.add(vec3(-0.5, 0, 0.5));       // 7   (Makes train longer)
         faces.add(CubeFace(5, 6, 7));
         normals.add(vec3(0.0, -0.5, 0.0));
         normals.add(vec3(0.0, -0.5, 0.0));
