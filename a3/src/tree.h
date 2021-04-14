@@ -14,17 +14,14 @@ public:
 
     seq<vec3> points;             // points in the air
     seq<vec3> bases;              // base on the terrain
-
-    bool treesDrawn;
+    int treeLocs[50];
     GLFWwindow* window;
 
     Tree() {
-        treesDrawn = false;
     }
 
     Tree(GLFWwindow* w) {
         window = w;
-        treesDrawn = false;
     }
 
     void clear() {
@@ -34,7 +31,7 @@ public:
     int count() {
         return points.size();
     }
-    void draw(mat4& WCStoVCS, mat4& WCStoCCS, vec3 lightDir, vec3 colour, int trees[]);
+    void draw(mat4& WCStoVCS, mat4& WCStoCCS, vec3 lightDir, vec3 colour);
     int genRandTreeLoc();
 
     float maxHeight() {

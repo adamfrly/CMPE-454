@@ -1,2 +1,4 @@
-﻿  tree.cpp
+﻿  terrain.cpp
+C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a3\src\terrain.cpp(13,1): warning C4005: 'POST_COLOUR': macro redefinition
+C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a3\src\scene.h(18): message : see previous definition of 'POST_COLOUR'
   roller.vcxproj -> C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a3\windows\Debug\roller.exe

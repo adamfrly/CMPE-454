@@ -188,19 +188,6 @@ class wfModel {
   void setupVAO( TextureMode textureMode );
   void initTextures( TextureMode tm );        /* assign texture IDs and store all textures */
 
-  seq<vec3> getVertices() {
-      return vertices;	/* vertices */
-  }
-  seq<vec3> getNormals() {
-      return normals;		/* face normals */
-  }
-  seq<vec3> getTexCoords() {
-      return texcoords;	    /* texture coordinates */
-  }
-  seq<vec3> getFaceNorms() {
-      return facetnorms;	/* face normals */
-  }
-
   void checkVindex( int v ) {
     if (v < 0 || v >= vertices.size()) {
       cerr << "error on line " << lineNum

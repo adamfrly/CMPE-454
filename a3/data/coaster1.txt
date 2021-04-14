@@ -1,6 +1,6 @@
 terrain
-  hills-heights.png
-  hills-texture.png
+  hills-heights_minecraft.png
+  hills-texture_minecraft.png
 
 points
   67.8399 58.0586 30.8682 3.01424

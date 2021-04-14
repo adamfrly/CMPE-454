@@ -14,3 +14,4 @@ extern Cylinder *cylinder;
 extern Cube     *cube;
 extern Axes     *axes;
 extern Segs     *segs;
+

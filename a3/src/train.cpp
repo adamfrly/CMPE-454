@@ -2,7 +2,7 @@
 
 #include "train.h"
 #include "main.h"
-
+#include "tree.h"
 
 #define SPHERE_RADIUS 5.0
 #define SPHERE_COLOUR 238/255.0, 106/255.0, 20/255.0
@@ -14,6 +14,10 @@
 #define CUBE_LENGTH 10.0
 #define CUBE_COLOUR 0/255.0, 196/255.0, 255/255.0
 #define NUM_TRAINS 5
+
+#define MAX_JIGGLE 0.05		//To make train cars jiggle
+#define JIGGLE 0.25
+
 
 
 // Draw the train.
@@ -37,7 +41,11 @@ void Train::draw( mat4 &WCStoVCS, mat4 &WCStoCCS, vec3 lightDir, bool flag )
 		t[i] = spline->paramAtArcLength(pos - i * 12.5f);
 		spline->findLocalSystem(t[i], o, x, y, z);
 
-		M = spline->findLocalTransform(t[i]) * scale(CUBE_WIDTH, CUBE_HEIGHT, CUBE_LENGTH);
+		vec3 randomvec = vec3(fmin((speed / 25.0) * rand() * JIGGLE / RAND_MAX, MAX_JIGGLE),
+			fmin((speed / 25.0) * rand() * JIGGLE / RAND_MAX, MAX_JIGGLE),
+			fmin((speed / 25.0) * rand() * JIGGLE / RAND_MAX, MAX_JIGGLE));
+
+		M = translate(randomvec) * spline->findLocalTransform(t[i]) * scale(CUBE_WIDTH, CUBE_HEIGHT, CUBE_LENGTH);
 		MV = WCStoVCS * M;
 		MVP = WCStoCCS * M;
 
@@ -75,10 +83,8 @@ void Train::advance( float elapsedSeconds )
 
 	vec3 o, x, y, z;
 	spline->findLocalSystem(t, o, x, y, z);
-
-	vec3 z_norm = z.normalize();
 	
-	speed -= SPEED_INC * (z_norm * vec3(0, 0, 1));
+	speed -= SPEED_INC * (z * vec3(0, 0, 1));
 
 	pos += speed * elapsedSeconds;
 

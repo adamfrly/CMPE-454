@@ -6,6 +6,7 @@
 #include "tree.h"
 #include "ctrlPoints.h"
 #include "seq.h"
+#include "scene.h"
 
 #define CURTAIN_COLOUR 0.6,0.6,0.4
 #define BOTTOM_COLOUR  0.3,0.3,0.2
@@ -318,19 +319,18 @@ void Terrain::draw( mat4 &MV, mat4 &MVP, vec3 lightDir, bool drawUndersideOnly )
 
 }
 
-void Terrain::drawTrees(mat4& MV, mat4& MVP, vec3 lightDir, int trees[]) {
+void Terrain::drawTrees(mat4& MV, mat4& MVP, vec3 lightDir) {
     //Novel Feature: Trees ########################################
 
-    Tree* tree;
 
+    Tree* tree;
     tree = new Tree();
 
     mat4 MVtmp, MVPtmp;
-
     MVtmp = MV;
     MVPtmp = MVP;
     float diag = sqrt(texture->width * texture->width + texture->height * texture->height);
-    tree->draw(MVtmp, MVPtmp, lightDir, TREE_COLOUR, trees);
+    tree->draw(MVtmp, MVPtmp, lightDir, TREE_COLOUR);
 
 }
 

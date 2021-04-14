@@ -15,11 +15,6 @@
 
 
 
-void Scene::setTreeLocs(int trees[]) {
-    for (int i = 0; i < 50; i++) {
-        treeLocs[i] = trees[i];
-    }
-}
 
 Scene::Scene( char *sceneFilename, GLFWwindow *w )
 
@@ -134,8 +129,7 @@ void Scene::draw( bool useItemTags )
 
   terrain->draw( MV, MVP, lightDir, drawUndersideOnly );
 
-  terrain->drawTrees(MV, MVP, lightDir, treeLocs);
-  
+  terrain->drawTrees(MV, MVP, lightDir);        //Draw the trees
 
 
   gpu->deactivate();
