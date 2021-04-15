@@ -124,12 +124,19 @@ bool Scene::findFirstObjectInt( vec3 rayStart, vec3 rayDir, int thisObjIndex, in
 //
 // This returns the colour received on the ray.
 
-vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex, int thisObjPartIndex )
+vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex, int thisObjPartIndex, int prodSpecular )
 
 {
-  // Terminate the ray?
+    int threshold = 0.01;                        // Bounces of low-reflective surfaces will cause a diminished prodSpecular resultin in "killed" ray
+    int wStar = prodSpecular;                   // The weight that the ray should have
+    int w = prodSpecular;                       // Actual weight of the ray used in ray tracing calculation
+    bool roulette = false;
+    // Terminate the ray?
+    if (wStar < threshold) {
+        roulette = true;                        // Terminate the ray probabilistically
+    }
 
-#if 1
+#if 0
 
   // Terminate based on depth.  This leads to biased sampling.
   // Disable this section of code once your own Russian Roulette code
@@ -152,6 +159,19 @@ vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex,
   //
   // Apply Russian Roulette to a ray if appropriate and, if the ray
   // survives, give it more weight.
+
+    float probTermination = 3 / 5;
+    float probNot = 1 - probTermination;
+
+    if (roulette) {
+        if (randIn01() < probTermination) {        // If random number is below probability, terminate the ray
+            return blackColour;
+        }
+        else {                                      // Otherwise, increase it's weight
+            w = (1 / probNot) * wStar;
+        }
+    }
+
 
 #endif
 
@@ -210,7 +230,7 @@ vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex,
 
   vec3 Iout = mat->Ie + vec3( mat->ka.x * Ia.x, mat->ka.y * Ia.y, mat->ka.z * Ia.z );
 
-  vec3 Iin = raytrace( P, R, depth, objIndex, objPartIndex );
+  vec3 Iin = raytrace( P, R, depth, objIndex, objPartIndex, w );     // Added w to call (updated weight from roulette)
 
   Iout = Iout + calcIout( N, R, E, E, kd, mat->ks, mat->n, Iin );
     
@@ -261,11 +281,30 @@ vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex,
 	// Apply Phong separately to *each* shadow ray that reaches the light.
 	//
 	// Use 'randIn01()' to generate uniform random floats in [0,1].
-	
+          int numSamples = 2;
+
+          vec3 v0 = tri->verts[0].position;
+          vec3 v1 = tri->verts[1].position;
+          vec3 v2 = tri->verts[2].position;
+
+          for (int i = 0; i < numSamples; i++) {
+
+              float alpha = randIn01();
+              float beta = randIn01();
+              // Rejection Sampling:
+              while (alpha + beta > 1) {        // Make sure chosen point is in bounds
+                  alpha = randIn01();           // If not, reject sample and try again
+                  beta = randIn01();
+              }
+
+              vec3 point = v0 + alpha * (v1 - v0) + beta * (v2 - v0);
+
+              raytrace(eye->position, point, depth, thisObjIndex, thisObjPartIndex, 1);       // Send ray towards chosen point
+          }
 
 
-
-	
+          //Iout = Iout + calcIout(N, L, E, Lr, kd, mat->ks, mat->n, light.colour);       // Get contribution of emissive intensity of this triangle and add it to Iout
+          
 
 
       }
@@ -328,7 +367,7 @@ vec3 Scene::pixelColour( int x, int y )
 
   vec3 dir = (llCorner + (x+0.5)*right + (y+0.5)*up).normalize();
 
-  result = raytrace( eye->position, dir, 0, -1, -1 );
+  result = raytrace( eye->position, dir, 0, -1, -1 , 1);       // Added last 1 for prodSpecular
 
 #else
 

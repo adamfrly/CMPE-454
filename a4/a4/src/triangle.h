@@ -12,13 +12,14 @@
 
 class Triangle : public Object {
 
-  Vertex verts[3];		// three vertices of the triangle
   vec3 faceNormal;		// triangle normal
   float  barycentricFactor;     // factor used in computing local coords
   float  dist;			// distance origin-to-plane of triangle
   GLuint VAO;
 
  public:
+
+  Vertex verts[3];		// three vertices of the triangle (made public for access when doing soft shadows)
 
   Triangle() {
     VAO = 0;
