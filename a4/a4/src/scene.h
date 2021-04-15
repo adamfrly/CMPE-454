@@ -98,7 +98,7 @@ class Scene {
     arrow = NULL;
     stop = false;
     jitter = false;
-    numPixelSamples = 1;
+    numPixelSamples = 3;
     debug = false;
     debugPixel = vec2(-1,-1);
     sceneScale = 1;
@@ -118,7 +118,7 @@ class Scene {
   void read( const char *basename, istream &in );
   void write( ostream &out );
   vec3 pixelColour( int x, int y );
-  vec3 raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex, int thisObjPartIndex, int prodSpecular );
+  vec3 raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex, int thisObjPartIndex, float prodSpecular );
   vec3 calcIout( vec3 N, vec3 L, vec3 E, vec3 R,
 		   vec3 Kd, vec3 Ks, float ns, vec3 In );
   bool findFirstObjectInt( vec3 rayStart, vec3 rayDir, int thisObjIndex, int thisObjPartIndex, 

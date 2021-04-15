@@ -124,19 +124,19 @@ bool Scene::findFirstObjectInt( vec3 rayStart, vec3 rayDir, int thisObjIndex, in
 //
 // This returns the colour received on the ray.
 
-vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex, int thisObjPartIndex, int prodSpecular )
+vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex, int thisObjPartIndex, float prodSpecular )
 
 {
     int threshold = 0.01;                        // Bounces of low-reflective surfaces will cause a diminished prodSpecular resultin in "killed" ray
-    int wStar = prodSpecular;                   // The weight that the ray should have
-    int w = prodSpecular;                       // Actual weight of the ray used in ray tracing calculation
+    float wStar = prodSpecular;                   // The weight that the ray should have
+    float w = prodSpecular;                       // Actual weight of the ray used in ray tracing calculation
     bool roulette = false;
     // Terminate the ray?
     if (wStar < threshold) {
         roulette = true;                        // Terminate the ray probabilistically
     }
 
-#if 0
+#if 1
 
   // Terminate based on depth.  This leads to biased sampling.
   // Disable this section of code once your own Russian Roulette code
@@ -171,7 +171,8 @@ vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex,
             w = (1 / probNot) * wStar;
         }
     }
-
+    
+    
 
 #endif
 
@@ -281,7 +282,7 @@ vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex,
 	// Apply Phong separately to *each* shadow ray that reaches the light.
 	//
 	// Use 'randIn01()' to generate uniform random floats in [0,1].
-          int numSamples = 2;
+    /*      int numSamples = 2;
 
           vec3 v0 = tri->verts[0].position;
           vec3 v1 = tri->verts[1].position;
@@ -301,11 +302,9 @@ vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex,
 
               raytrace(eye->position, point, depth, thisObjIndex, thisObjPartIndex, 1);       // Send ray towards chosen point
           }
-
+*/
 
           //Iout = Iout + calcIout(N, L, E, Lr, kd, mat->ks, mat->n, light.colour);       // Get contribution of emissive intensity of this triangle and add it to Iout
-          
-
 
       }
     }
@@ -360,7 +359,7 @@ vec3 Scene::pixelColour( int x, int y )
 
   vec3 result;
 
-#if 1
+#if 0
 
   // This sends a single ray through the pixel centre.  Disable this
   // section of code when your antialiasing code (below) is ready.
@@ -377,10 +376,33 @@ vec3 Scene::pixelColour( int x, int y )
   // rays.  Use a regular pattern in the subpixel centres if 'jitter'
   // is false; use a jittered patter if 'jitter' is true.
   
+  double xOffset = x / numPixelSamples;
+  double yOffset = y / numPixelSamples;
+  vec3 dir = (llCorner + (x + 0.5) * right + (y + 0.5) * up).normalize();
+  //vec3 subPix;
 
+  for (double i = 0; i < numPixelSamples; i++) {
+      for (double j = 0; j < numPixelSamples; j++) {
 
+          double rightDir = (x + (xOffset * 0.5) + xOffset * j);
+          double upDir = (y + (yOffset * 0.5) + yOffset * i);
+          vec3 subPix = (llCorner + (rightDir) * right + (upDir) * up);
 
-  
+          /*
+          if (jitter) {         // Use jittered patter
+
+              double jAmountX = ((randIn01()*2 - 1)/xOffset);
+              double jAmountY = ((randIn01()*2 - 1)/yOffset);
+              subPix = (llCorner + ((x + (xOffset * j) + jAmountX) * right) + ((y +(yOffset * i) + jAmountY) * up));
+          }
+          */
+
+          result = result + raytrace(eye->position, subPix, 0, -1, -1, 1);       // Sum results to be averaged after loop
+      }
+  }
+
+  result = 1 / (numPixelSamples * numPixelSamples) * result;
+
 #endif
 
 
