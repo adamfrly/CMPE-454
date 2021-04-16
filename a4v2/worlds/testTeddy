@@ -9,11 +9,11 @@ eye
 material
   white       # name
   0 0 0       # ambient reflectivity (Ka)
-  1 1 1       # diffuse reflectivity (Kd)
+  1 1 0       # diffuse reflectivity (Kd)
   0 0 0       # specular reflectivity (Ks)
   10          # shininess (n)
   1           # glossiness (g)
-  0 0 0       # emission (Ie)
+  .7 .7 0       # emission (Ie)
   1           # opacity (alpha)
   -           # texture filename (- means none)
   -           # bump map filename (- means none)
@@ -75,7 +75,7 @@ light
   0.7 0.7 0.7
 
 sphere
-  50           # radius
+  8           # radius
   0 0 0       # centre
   white         # material name
 

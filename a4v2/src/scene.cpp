@@ -34,7 +34,7 @@
 vec3 backgroundColour(0,0,0);
 vec3 blackColour(0,0,0);
 
-#define NUM_SOFT_SHADOW_RAYS 12
+#define NUM_SOFT_SHADOW_RAYS 50
 #define MAX_NUM_LIGHTS 4
 
 
@@ -124,7 +124,7 @@ bool Scene::findFirstObjectInt( vec3 rayStart, vec3 rayDir, int thisObjIndex, in
 //
 // This returns the colour received on the ray.
 
-vec3 Scene::raytrace(vec3& rayStart, vec3& rayDir, int depth, int thisObjIndex, int thisObjPartIndex, vec3 specProd)
+vec3 Scene::raytrace(vec3& rayStart, vec3& rayDir, int depth, int thisObjIndex, int thisObjPartIndex, vec3& specProd)
 
 {
     // Terminate the ray?
@@ -157,10 +157,10 @@ vec3 Scene::raytrace(vec3& rayStart, vec3& rayDir, int depth, int thisObjIndex, 
 
     depth++;
 
-    float prob_terminate = 0.6;
-    float threshold = 0.8;
+    float prob_terminate = 0.2;
+    float threshold = 0.01;
 
-    float w = 1;
+    float w = 1.0;
 
     if (specProd.x < threshold) {
         if (randIn01() < prob_terminate) {
@@ -267,11 +267,8 @@ vec3 Scene::raytrace(vec3& rayStart, vec3& rayDir, int depth, int thisObjIndex, 
     }
 
     // Add contributions from emitting triangles
-    int hitCount = 0;
-    vec3 subresult = vec3(0.0, 0.0, 0.0);
-    vec3 Iin2 = raytrace(P, R, depth, objIndex, objPartIndex, specProd);
-
-    Iout = Iout + calcIout(N, R, E, E, kd, w * mat->ks, mat->n, Iin2);
+    // int hitCount = 0;
+    // vec3 subresult;
 
     for (int i = 0; i < objects.size(); i++) {
         if (i != thisObjIndex) {
@@ -288,8 +285,10 @@ vec3 Scene::raytrace(vec3& rayStart, vec3& rayDir, int depth, int thisObjIndex, 
                 //
                 // Use 'randIn01()' to generate uniform random floats in [0,1].
 
-                subresult = vec3(0.0, 0.0, 0.0);
-                hitCount = 0;
+                vec3 v0;
+                vec3 v1;
+                vec3 v2;
+                vec3 point;
                 for (int j = 0; j < NUM_SOFT_SHADOW_RAYS; j++) {
 
                     float alpha, beta;
@@ -299,11 +298,10 @@ vec3 Scene::raytrace(vec3& rayStart, vec3& rayDir, int depth, int thisObjIndex, 
                         beta = randIn01();
                     } while (alpha + beta > 1);
 
-                    Triangle* triangle = (Triangle*)objects[i];
-                    vec3 v0 = triangle->verts[0].position;
-                    vec3 v1 = triangle->verts[1].position;
-                    vec3 v2 = triangle->verts[2].position;
-                    vec3 point = v0 + alpha * (v1 - v0) + beta * (v2 - v0);
+                    v0 = tri->verts[0].position;
+                    v1 = tri->verts[1].position;
+                    v2 = tri->verts[2].position;
+                    point = v0 + alpha * (v1 - v0) + beta * (v2 - v0);
 
                     vec3 L = (point - P);
                     float Ldist = L.length();
@@ -318,14 +316,12 @@ vec3 Scene::raytrace(vec3& rayStart, vec3& rayDir, int depth, int thisObjIndex, 
                         // Is there a blocker?
                         bool found = findFirstObjectInt(P, L, objIndex, objPartIndex, intP, intN, intTexCoords, intT, intObjIndex, intObjPartIndex, intMat, -1);
 
-                        if (found && intT > Ldist) {
-                            hitCount++;
-                            vec3 Lr = (2.0 * (L * N)) * N - L;
-                            subresult = subresult + calcIout(N, point, E, Lr, mat->kd, mat->ks, mat->n, triangle->mat->Ie);   // Apply Phong
+                        if (!found ||intObjIndex==i || intT > Ldist) {
+                            vec3 Lr = (2 * (L * N)) * N - L;
+                            Iout = Iout + (1.0/(float) NUM_SOFT_SHADOW_RAYS) * calcIout(N, L, E, Lr, mat->kd, w * mat->ks, mat->n, tri->mat->Ie);   // Apply Phong
                         }
                     }
                 }
-                Iout = Iout + (1.0 / ((float)hitCount) * subresult);
             }
         }
     }

@@ -85,7 +85,7 @@ class Scene {
     segs = new Segs();
 
     Ia = vec3(0.1,0.1,0.1);
-    maxDepth = 8;
+    maxDepth = 5;
     glossyIterations = 6;
     useTextureTransparency = true;
     storingRays = false;
@@ -118,7 +118,7 @@ class Scene {
   void read( const char *basename, istream &in );
   void write( ostream &out );
   vec3 pixelColour( int x, int y );
-  vec3 raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex, int thisObjPartIndex, vec3 specProd );
+  vec3 raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex, int thisObjPartIndex, vec3& specProd );
   vec3 calcIout( vec3 N, vec3 L, vec3 E, vec3 R,
 		   vec3 Kd, vec3 Ks, float ns, vec3 In );
   bool findFirstObjectInt( vec3 rayStart, vec3 rayDir, int thisObjIndex, int thisObjPartIndex, 
