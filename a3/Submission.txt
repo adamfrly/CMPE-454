@@ -1,0 +1,21 @@
+CMPE 454 - Assignment 3:
+Adam Farley, 20053344, 16ajbf@queensu.ca
+Alex Ingham, 20054078, 16adwi@queensu.ca
+
+The features we implemented were the jiggling of train cars and procedural placement of trees in the scene.
+Jiggling was done by adding a small translation in Train::draw to each car depending on how fast the train was moving (a maximum amount of jiggle was set so that the train wouldn't go crazy).
+The trees were done by generating a grid of trees in the scene, and translating each by a randomly generated vector.
+
+The physics model was done by with four key lines:
+float t = spline->paramAtArcLength(pos);
+
+	vec3 o, x, y, z;
+	spline->findLocalSystem(t, o, x, y, z);
+	
+	speed -= SPEED_INC * (z * vec3(0, 0, 1));
+
+	pos += speed * elapsedSeconds;
+
+This model takes the SPEED_INC value, and scales it by the dot product between the train's direction and the "up" direction.
+If the train is facing upwards, more speed will be subtracted in that frame, if the train is facing downward, speed will be added.
+Originally, the z variable was normalized before being dotted, but through trial and error, we found that the un-normalized z made for more relaistic results.
