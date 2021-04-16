@@ -1,2 +1,29 @@
-﻿  scene.cpp
-  rt.vcxproj -> C:\Users\adamf\Documents\School Work\Queen's\4th Year\Second Semester\CMPE 454\a4\windows\Debug\rt.exe
+﻿  arcball.cpp
+  arrow.cpp
+  axes.cpp
+  bbox.cpp
+  bvh.cpp
+  drawSegs.cpp
+  eye.cpp
+  font.cpp
+  gpuProgram.cpp
+  light.cpp
+  linalg.cpp
+  main.cpp
+  material.cpp
+  object.cpp
+  pixelZoom.cpp
+  rtWindow.cpp
+  scene.cpp
+  sphere.cpp
+  texture.cpp
+  triangle.cpp
+  Generating Code...
+  Compiling...
+  vertex.cpp
+  wavefront.cpp
+  wavefrontobj.cpp
+  Generating Code...
+  glad.c
+  LINK : C:\Users\adamf\Documents\School Work\Queen's\4th Year\Second Semester\CMPE 454\CMPE-454\a4v2\windows\Debug\rt.exe not found or not built by the last incremental link; performing full link
+  rt.vcxproj -> C:\Users\adamf\Documents\School Work\Queen's\4th Year\Second Semester\CMPE 454\CMPE-454\a4v2\windows\Debug\rt.exe
