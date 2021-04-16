@@ -1,0 +1,100 @@
+# Test of Wavefront triceratops
+
+eye        
+  -34.0311 15.0962 65.7887
+  -1.71784 16.2851 3.02966
+  -0.0302912 0.999536 0.00333941
+  0.954249
+
+material
+  white       # name
+  0 0 0       # ambient reflectivity (Ka)
+  1 1 1       # diffuse reflectivity (Kd)
+  0 0 0       # specular reflectivity (Ks)
+  10          # shininess (n)
+  1           # glossiness (g)
+  0 0 0       # emission (Ie)
+  1           # opacity (alpha)
+  -           # texture filename (- means none)
+  -           # bump map filename (- means none)
+
+material
+  red         # name
+  0.1 0 0     # ambient reflectivity (Ka)
+  .7 0 0      # diffuse reflectivity (Kd)
+  .3 .3 .3    # specular reflectivity (Ks)
+  200         # shininess (n)
+  1           # glossiness (g)
+  0 0 0       # emission (Ie)
+  1           # opacity (alpha)
+  -           # texture filename (- means none)
+  -           # bump map filename (- means none)
+
+material
+  green       # name
+  0.1 0 0     # ambient reflectivity (Ka)
+  0 .7 0      # diffuse reflectivity (Kd)
+  .3 .3 .3    # specular reflectivity (Ks)
+  200         # shininess (n)
+  1           # glossiness (g)
+  0 0 0       # emission (Ie)
+  1           # opacity (alpha)
+  -           # texture filename (- means none)
+  -           # bump map filename (- means none)
+
+material
+  blue        # name
+  0.1 0 0     # ambient reflectivity (Ka)
+  0 0 .7      # diffuse reflectivity (Kd)
+  .3 .3 .3    # specular reflectivity (Ks)
+  200         # shininess (n)
+  1           # glossiness (g)
+  0 0 0       # emission (Ie)
+  1           # opacity (alpha)
+  -           # texture filename (- means none)
+  -           # bump map filename (- means none)
+
+material
+  purple      # name
+  0.1 0 0     # ambient reflectivity (Ka)
+  .7 0 .7      # diffuse reflectivity (Kd)
+  .3 .3 .3    # specular reflectivity (Ks)
+  200         # shininess (n)
+  1           # glossiness (g)
+  0 0 0       # emission (Ie)
+  1           # opacity (alpha)
+  -           # texture filename (- means none)
+  -           # bump map filename (- means none)
+
+light
+  20 60 20
+  0.7 0.7 0.7
+
+light
+  -20 60 -20
+  0.7 0.7 0.7
+
+sphere
+  50           # radius
+  0 0 0       # centre
+  white         # material name
+
+sphere
+  6           # radius
+  15 15 0       # centre
+  blue         # material name
+
+sphere
+  6           # radius
+  15 -15 0       # centre
+  green         # material name
+
+sphere
+  6           # radius
+  -15 15 0       # centre
+  purple         # material name
+
+sphere
+  6           # radius
+  -15 -15 0       # centre
+  red         # material name
