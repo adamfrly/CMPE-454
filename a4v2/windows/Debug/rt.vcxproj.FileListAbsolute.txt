@@ -2,3 +2,5 @@ C:\Users\adamf\Documents\School Work\Queen's\4th Year\Second Semester\CMPE 454\a
 C:\Users\adamf\Documents\School Work\Queen's\4th Year\Second Semester\CMPE 454\a4\windows\Debug\rt.pdb
 C:\Users\adamf\Documents\School Work\Queen's\4th Year\Second Semester\CMPE 454\CMPE-454\a4v2\windows\Debug\rt.exe
 C:\Users\adamf\Documents\School Work\Queen's\4th Year\Second Semester\CMPE 454\CMPE-454\a4v2\windows\Debug\rt.pdb
+C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a4v2\windows\Debug\rt.exe
+C:\Users\Alex\Desktop\Queens\4thYear\Second Semester\CMPE454\CMPE-454\a4v2\windows\Debug\rt.pdb

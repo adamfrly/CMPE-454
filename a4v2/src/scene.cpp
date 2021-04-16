@@ -34,7 +34,7 @@
 vec3 backgroundColour(0,0,0);
 vec3 blackColour(0,0,0);
 
-#define NUM_SOFT_SHADOW_RAYS 50
+#define NUM_SOFT_SHADOW_RAYS 12
 #define MAX_NUM_LIGHTS 4
 
 
@@ -124,23 +124,23 @@ bool Scene::findFirstObjectInt( vec3 rayStart, vec3 rayDir, int thisObjIndex, in
 //
 // This returns the colour received on the ray.
 
-vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex, int thisObjPartIndex, vec3 specProd)
+vec3 Scene::raytrace(vec3& rayStart, vec3& rayDir, int depth, int thisObjIndex, int thisObjPartIndex, vec3 specProd)
 
 {
-  // Terminate the ray?
+    // Terminate the ray?
 
 #if 0
 
   // Terminate based on depth.  This leads to biased sampling.
   // Disable this section of code once your own Russian Roulette code
   // (below) is ready.
-  
-  depth++;
 
-  if (depth > maxDepth)
-    return blackColour;
+    depth++;
 
-  float w = 1.0; 
+    if (depth > maxDepth)
+        return blackColour;
+
+    float w = 1.0;
 
 #else
 
@@ -174,126 +174,162 @@ vec3 Scene::raytrace( vec3 &rayStart, vec3 &rayDir, int depth, int thisObjIndex,
 
 #endif
 
-  // Find the closest object intersected
+    // Find the closest object intersected
 
-  vec3     P, N, texcoords;
-  float    t;
-  int      objIndex, objPartIndex;
-  Material *mat;
+    vec3     P, N, texcoords;
+    float    t;
+    int      objIndex, objPartIndex;
+    Material* mat;
 
-  // Below, 'rayStart' is the ray staring point
-  //        'rayDir' is the direction of the ray
-  //        'thisObjIndex' is the index of the originating object
-  //        'thisObjPartIndex' is the index of the part on the originating object (e.g. the triangle)
-  //
-  // If a hit is made then at the intersection point:
-  //        'P' is the position
-  //        'N' is the normal
-  //        'texcoords' are the texture coordinates
-  //        't' is the ray parameter at intersection
-  //        'objIndex' is the index of the object that is hit
-  //        'objPartIndex' is the index of the part of object that is hit
-  //        'mat' is the material at the intersection point
-  
-  bool hit = findFirstObjectInt( rayStart, rayDir, thisObjIndex, thisObjPartIndex, P, N, texcoords, t, objIndex, objPartIndex, mat, -1 );
+    // Below, 'rayStart' is the ray staring point
+    //        'rayDir' is the direction of the ray
+    //        'thisObjIndex' is the index of the originating object
+    //        'thisObjPartIndex' is the index of the part on the originating object (e.g. the triangle)
+    //
+    // If a hit is made then at the intersection point:
+    //        'P' is the position
+    //        'N' is the normal
+    //        'texcoords' are the texture coordinates
+    //        't' is the ray parameter at intersection
+    //        'objIndex' is the index of the object that is hit
+    //        'objPartIndex' is the index of the part of object that is hit
+    //        'mat' is the material at the intersection point
 
-  // No intersection: Return background colour
+    bool hit = findFirstObjectInt(rayStart, rayDir, thisObjIndex, thisObjPartIndex, P, N, texcoords, t, objIndex, objPartIndex, mat, -1);
 
-  if (!hit) {
-    if (depth == 1)
-      return backgroundColour;
-    else
-      return blackColour;
-  }
+    // No intersection: Return background colour
 
-  // Find reflection direction & incoming light from that direction
-
-  Object &obj = *objects[objIndex];
-
-  vec3 E = (-1 * rayDir).normalize();
-  vec3 R = (2 * (E * N)) * N - E;
-
-  float alpha;
-  vec3  colour = obj.textureColour( P, objPartIndex, alpha, texcoords );
-
-  vec3 kd = vec3( colour.x*mat->kd.x, colour.y*mat->kd.y, colour.z*mat->kd.z );
-
-  if (debug) { // 'debug' is set when tracing through a pixel that the user right-clicked
-    INDENT(2*depth); cout << "texcoords " << texcoords << endl;
-    INDENT(2*depth); cout << "   colour " << colour << endl;
-    INDENT(2*depth); cout << "       id " << kd << endl;
-    INDENT(2*depth); cout << "        P " << P << endl;
-    INDENT(2*depth); cout << "        N " << N << endl;
-    INDENT(2*depth); cout << "    alpha " << alpha << endl;
-  }
-
-  vec3 Iout = mat->Ie + vec3( mat->ka.x * Ia.x, mat->ka.y * Ia.y, mat->ka.z * Ia.z );
-
-  specProd = vec3(specProd.x * mat->ks.x, specProd.y * mat->ks.y, specProd.z * mat->ks.z); // Calculating new secular product
-
-  vec3 Iin = raytrace( P, R, depth, objIndex, objPartIndex, specProd);
-
-  Iout = Iout + calcIout( N, R, E, E, kd, w * mat->ks, mat->n, Iin );
-    
-  // Add contributions from point lights
-
-  for (int i=0; i<lights.size(); i++) {
-    Light &light = *lights[i];
-
-    vec3 L = light.position - P; // point light
-
-    if (N*L > 0) {
-
-      float  Ldist = L.length();
-      L = (1.0/Ldist) * L;
-
-      vec3 intP, intN, intTexCoords;
-      float intT;
-      int intObjIndex, intObjPartIndex;
-      Material *intMat;
-
-      // Is there an object between P and the light?
-      //
-      // Note that 'intObjIndex' will return with the index of the
-      // object that is hit.  So the hit object is objects[intObjIndex].
-
-      bool found = findFirstObjectInt( P, L, objIndex, objPartIndex, intP, intN, intTexCoords, intT, intObjIndex, intObjPartIndex, intMat, i );
-
-      if (!found || intT > Ldist) { // no object: Add contribution from this light
-        vec3 Lr = (2 * (L * N)) * N - L;
-        Iout = Iout + calcIout( N, L, E, Lr, kd, w * mat->ks, mat->n, light.colour);
-      }
+    if (!hit) {
+        if (depth == 1)
+            return backgroundColour;
+        else
+            return blackColour;
     }
-  }
 
-  // Add contributions from emitting triangles
+    // Find reflection direction & incoming light from that direction
 
-  for (int i=0; i<objects.size(); i++) {
-    if (i != thisObjIndex) {
-      Triangle* tri = dynamic_cast<Triangle*>( objects[i] );
-      if (tri && tri->mat->Ie.squaredLength() > 0) {
+    Object& obj = *objects[objIndex];
 
-	// 'tri' is an emitting triangle
+    vec3 E = (-1 * rayDir).normalize();
+    vec3 R = (2 * (E * N)) * N - E;
 
-	// YOUR CODE HERE
-	//
-	// Add to Iout the contribution from this emitting triangle, 'tri'.
-	//
-	// Apply Phong separately to *each* shadow ray that reaches the light.
-	//
-	// Use 'randIn01()' to generate uniform random floats in [0,1].
-	
+    float alpha;
+    vec3  colour = obj.textureColour(P, objPartIndex, alpha, texcoords);
 
+    vec3 kd = vec3(colour.x * mat->kd.x, colour.y * mat->kd.y, colour.z * mat->kd.z);
 
-
-	
-
-
-      }
+    if (debug) { // 'debug' is set when tracing through a pixel that the user right-clicked
+        INDENT(2 * depth); cout << "texcoords " << texcoords << endl;
+        INDENT(2 * depth); cout << "   colour " << colour << endl;
+        INDENT(2 * depth); cout << "       id " << kd << endl;
+        INDENT(2 * depth); cout << "        P " << P << endl;
+        INDENT(2 * depth); cout << "        N " << N << endl;
+        INDENT(2 * depth); cout << "    alpha " << alpha << endl;
     }
-  }
 
-  return Iout;
+    vec3 Iout = mat->Ie + vec3(mat->ka.x * Ia.x, mat->ka.y * Ia.y, mat->ka.z * Ia.z);
+
+    specProd = vec3(specProd.x * mat->ks.x, specProd.y * mat->ks.y, specProd.z * mat->ks.z); // Calculating new secular product
+
+    vec3 Iin = raytrace(P, R, depth, objIndex, objPartIndex, specProd);
+
+    Iout = Iout + calcIout(N, R, E, E, kd, w * mat->ks, mat->n, Iin);
+
+    // Add contributions from point lights
+
+    for (int i = 0; i < lights.size(); i++) {
+        Light& light = *lights[i];
+
+        vec3 L = light.position - P; // point light
+
+        if (N * L > 0) {
+
+            float  Ldist = L.length();
+            L = (1.0 / Ldist) * L;
+
+            vec3 intP, intN, intTexCoords;
+            float intT;
+            int intObjIndex, intObjPartIndex;
+            Material* intMat;
+
+            // Is there an object between P and the light?
+            //
+            // Note that 'intObjIndex' will return with the index of the
+            // object that is hit.  So the hit object is objects[intObjIndex].
+
+            bool found = findFirstObjectInt(P, L, objIndex, objPartIndex, intP, intN, intTexCoords, intT, intObjIndex, intObjPartIndex, intMat, i);
+
+            if (!found || intT > Ldist) { // no object: Add contribution from this light
+                vec3 Lr = (2 * (L * N)) * N - L;
+                Iout = Iout + calcIout(N, L, E, Lr, kd, mat->ks, mat->n, light.colour);
+            }
+        }
+    }
+
+    // Add contributions from emitting triangles
+    int hitCount = 0;
+    vec3 subresult = vec3(0.0, 0.0, 0.0);
+    vec3 Iin2 = raytrace(P, R, depth, objIndex, objPartIndex, specProd);
+
+    Iout = Iout + calcIout(N, R, E, E, kd, w * mat->ks, mat->n, Iin2);
+
+    for (int i = 0; i < objects.size(); i++) {
+        if (i != thisObjIndex) {
+            Triangle* tri = dynamic_cast<Triangle*>(objects[i]);
+            if (tri && tri->mat->Ie.squaredLength() > 0) {
+
+                // 'tri' is an emitting triangle
+
+                // YOUR CODE HERE
+                //
+                // Add to Iout the contribution from this emitting triangle, 'tri'.
+                //
+                // Apply Phong separately to *each* shadow ray that reaches the light.
+                //
+                // Use 'randIn01()' to generate uniform random floats in [0,1].
+
+                subresult = vec3(0.0, 0.0, 0.0);
+                hitCount = 0;
+                for (int j = 0; j < NUM_SOFT_SHADOW_RAYS; j++) {
+
+                    float alpha, beta;
+                    // Rejection Sampling:
+                    do {
+                        alpha = randIn01();           // If chosen point is not in bounds, reject sample and try again
+                        beta = randIn01();
+                    } while (alpha + beta > 1);
+
+                    Triangle* triangle = (Triangle*)objects[i];
+                    vec3 v0 = triangle->verts[0].position;
+                    vec3 v1 = triangle->verts[1].position;
+                    vec3 v2 = triangle->verts[2].position;
+                    vec3 point = v0 + alpha * (v1 - v0) + beta * (v2 - v0);
+
+                    vec3 L = (point - P);
+                    float Ldist = L.length();
+                    L = (1.0 / Ldist) * L;
+                    if (N * L > 0) {
+
+                        vec3 intP, intN, intTexCoords;
+                        float intT;
+                        int intObjIndex, intObjPartIndex;
+                        Material* intMat;
+
+                        // Is there a blocker?
+                        bool found = findFirstObjectInt(P, L, objIndex, objPartIndex, intP, intN, intTexCoords, intT, intObjIndex, intObjPartIndex, intMat, -1);
+
+                        if (found && intT > Ldist) {
+                            hitCount++;
+                            vec3 Lr = (2.0 * (L * N)) * N - L;
+                            subresult = subresult + calcIout(N, point, E, Lr, mat->kd, mat->ks, mat->n, triangle->mat->Ie);   // Apply Phong
+                        }
+                    }
+                }
+                Iout = Iout + (1.0 / ((float)hitCount) * subresult);
+            }
+        }
+    }
+    return Iout;
 }
 
 
@@ -342,7 +378,7 @@ vec3 Scene::pixelColour(int x, int y)
 
     vec3 result;
 
-#if 0
+#if 1
 
     // This sends a single ray through the pixel centre.  Disable this
     // section of code when your antialiasing code (below) is ready.
